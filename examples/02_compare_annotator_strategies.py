@@ -49,7 +49,7 @@ def build_annotator(cls: type[AnnotatorModel], labels, class_probs, X: np.ndarra
         # whole dataset every call, to match the other strategies' "complete every batch"
         # KL contract.
         return cls(
-            labels.num_workers, labels.num_classes, X, hidden_units=[32, 32],
+            labels.num_workers, labels.num_classes, X,
             alpha_tilde_init=init_alpha_tilde(labels, class_probs),
         )
     return cls(labels.num_workers, labels.num_classes)

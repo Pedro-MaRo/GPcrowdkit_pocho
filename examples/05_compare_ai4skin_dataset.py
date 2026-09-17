@@ -95,8 +95,15 @@ def build_annotator(cls: type[AnnotatorModel], labels, class_probs, X: np.ndarra
         # correction on can still be vote-seeded, same as VariationalDirichletAnnotator.
         # X itself is also required: kl_divergence() needs the full training set to stay
         # complete every call, the same invariant the other strategies get for free.
+        #
+        # Deliberately no hidden_units here: with ~500 training WSIs and 512-1024-d
+        # foundation-model features, a trainable D -> hidden layer has more parameters
+        # than there are annotations to fit it (see FeatDepDirichletAnnotator's class
+        # docstring), which measurably made this strategy worse than majority vote on
+        # its own training data. The default projection_dim=16 fixed PCA projection
+        # carries no such risk -- it needs no annotation-dependent gradient step at all.
         return cls(
-            labels.num_workers, labels.num_classes, X, hidden_units=[32, 32],
+            labels.num_workers, labels.num_classes, X,
             alpha_tilde_init=init_alpha_tilde(labels, class_probs),
         )
     return cls(labels.num_workers, labels.num_classes)

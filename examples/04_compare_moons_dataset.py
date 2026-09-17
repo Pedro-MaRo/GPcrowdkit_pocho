@@ -90,7 +90,7 @@ def build_annotator(cls: type[AnnotatorModel], labels, class_probs, X: np.ndarra
         # X itself is also required: kl_divergence() needs the full training set to stay
         # complete every call, the same invariant the other strategies get for free.
         return cls(
-            labels.num_workers, labels.num_classes, X, hidden_units=[32, 32],
+            labels.num_workers, labels.num_classes, X,
             alpha_tilde_init=init_alpha_tilde(labels, class_probs),
         )
     return cls(labels.num_workers, labels.num_classes)

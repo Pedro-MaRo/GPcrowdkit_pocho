@@ -79,7 +79,6 @@ def main() -> None:
             labels.num_workers,
             labels.num_classes,
             data.X,
-            hidden_units=[32, 32],
             alpha_tilde_init=init_alpha_tilde(labels, class_probs),
         ),
         num_data=labels.num_items,
